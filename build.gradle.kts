@@ -1,16 +1,7 @@
-val kotlin_version: String by project
-val logback_version: String by project
-
 plugins {
-    kotlin("jvm") version "2.1.10"
-    id("io.ktor.plugin") version "3.2.1"
-}
-
-group = "com.example"
-version = "0.0.1"
-
-application {
-    mainClass = "io.ktor.server.netty.EngineMain"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.10"
+    application
 }
 
 repositories {
@@ -18,11 +9,23 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm")
-    implementation("io.ktor:ktor-server-netty")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("io.ktor:ktor-server-core")
-    implementation("io.ktor:ktor-server-config-yaml")
-    testImplementation("io.ktor:ktor-server-test-host")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    // --- Ktor Core ---
+    implementation("io.ktor:ktor-server-core:2.3.4")
+    implementation("io.ktor:ktor-server-netty:2.3.4")
+
+    // --- JSON Serialization ---
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4")
+    implementation("io.ktor:ktor-server-content-negotiation:2.3.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+    // --- Logging (optional but useful) ---
+    implementation("ch.qos.logback:logback-classic:1.4.11")
+
+    // --- Unit Testing ---
+    testImplementation("io.ktor:ktor-server-tests:2.3.4")
+    testImplementation(kotlin("test"))
+}
+
+application {
+    mainClass.set("com.example.ApplicationKt")
 }
